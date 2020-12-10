@@ -1,0 +1,47 @@
+---
+title: "A study of effect of having children on chance of having affairs for men and women"
+author: 'xxx'
+date: "2020-12-09"
+abstract: |
+  |   This study investigated the research question that the effect of  having children for men and women on the chance of having affairs. It was found  a woman becoming a mother would be less likely to having affair as they would be overly protective after they become new mothers. It was also found  a man becoming a father would be more likely to having affairs as they are likely to feel constrained after they become new fathers.
+  |
+  | **Keywords:**  affairs; extramarital sex; 
+output:
+  bookdown::pdf_document2:
+toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,eval=TRUE, warning=F,message=F)
+```
+
+# Introduction
+
+
+This study is interested in the research question that chance of having affairs affected by whether having children for men and women. This question is interested because it is claimed that when a woman becoming a mother, she would be less likely to having affairs but it is also claimed that when a man becoming a father, he would be more likely to having affairs. These kinds of claims might be found in lots of locations especially from TV shows where man always tend to have extramarital sex when they becoming a new father but woman always not when she becoming a new mother, these might be some kind research human behaviour as it belevies that 
+women become overly protective after they become new mothers so they avoid  having extramarital sex while men are likely to feel constrained after they become new fathers leading to having more extramarital sex.
+
+
+# Data 
+
+
+# Model 
+
+
+# Results
+
+
+# Discussion
+
+
+# References
+
+
+# Appendix 
+
+
+
+
+
+
+
