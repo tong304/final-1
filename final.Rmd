@@ -1,0 +1,192 @@
+---
+title: "A study of effect of having children on chance of having affairs for men and women"
+author: 'Shabier Zulihumaer'
+date: "December 21, 2020"
+abstract: |
+  |   This study investigated the research question that the effect of  having children for men and women on the chance of having affairs. It was found before women become a mother, they have much lower chance of have affairs which is about a half (10% vs. 20%) of males. But after women become a mother and men become a father, although  men still have a higher chance of have affairs, the increase of chance of having affairs is much higher for women. Thus, this study suggests it indicates women is more likely to feel constrained after they become new mothers leading to having more extramarital sex indeed.
+  |
+  | **Keywords:**  affairs; extramarital sex; logistic model;
+output:
+  bookdown::pdf_document2:
+toc: FALSE
+linestretch: 1.5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,eval=TRUE, warning=F,message=F)
+```
+
+# Introduction
+
+
+We know that the proportions of divorces are becoming higher and higher almost all around the world. And too high rate of divorces would cause many associated social problems such as harmful to children, fail to pay money to bank for loans and so on. 
+
+It is known to all that there are lots of reasons caused divorces, for examples, domestic violence could be one of the main causes. Domestic violence in the family is mainly by males in past years, but in recent years there has been an increasing number of domestic violence by females. Also, the reasons like personality incompatible personality resulting in a lot of divorce. Another reason might be the common contradiction between mother-in-law and daughter-in-law, contradiction between them is also a big killer in marriage, in the face of such difficulties, usually women will take the initiative to put forward. 
+
+However, the most common reason for divorces is cheating and it can be said that cheating is the most hurtful event in marriage, and it is also the most likely to destroy a happy family. It is a kind of irresponsible and immoral behavior which could be avoided. And it always happens for both males and females. Some studies claimed that having children might change people's attitude to their marriage that the chance of affairs would be recuded for both males and females.
+
+Under the above background, this study is interested in the research question that chance of having affairs affected by whether having children for men and women. This question is interested because it is claimed that when a woman becoming a mother, she would be less likely to having affairs but it is also claimed that when a man becoming a father, he would be more likely to having affairs. These kinds of claims might be found in lots of locations especially from TV shows where man always tend to have extramarital sex when they becoming a new father but woman always not when she becoming a new mother, these might be some kind research human behaviour as it belevies that women become overly protective after they become new mothers so they avoid  having extramarital sex while men are likely to feel constrained after they become new fathers leading to having more extramarital sex.
+
+The study is oragnized in five sections, the first section is the introduction, the second section is Data part and the third section is model, the fourth and fifth sections are results and dicussions respectively. The study could be found with source files in the Github repo link: https://github.com/tong304/final-1.
+
+# Data 
+
+The data set used in this study is a well known Affairs data.  The data source could be found in the link:https://vincentarelbundock.github.io/Rdatasets/articles/data.html. It is the Fair's Extramarital Affairs Data, it has over 600 observations with 9 attributes. And the Fair's Affairs is a Cross-section data  collected by Psychology Today in 1969 from a survey. The survey's target population is the entire household population, the sampling frame is list of housholds, the sample unit is married male and female in a household. The sampling method is stratified sampling that first selected stratas and then draw random samples from stratas. In this survey, the data might have non-response biasnesses, but this might not affect the study in this report seriously as the samples obtained are already representive for the population in the regions now. 
+
+The descrption of the variables of this original data is as follows:
+
+1. affairs -  numeric. How often engaged in extramarital sexual intercourse during the past year? 0 = none, 1 = once, 2 = twice, 3 = 3 times, 7 = 4–10 times, 12 = monthly, 12 = weekly, 12 = daily.
+
+2. gender - factor indicating gender.
+
+3. age - numeric variable coding age in years: 17.5 = under 20, 22 = 20–24, 27 = 25–29, 32 = 30–34, 37 = 35–39, 42 = 40–44, 47 = 45–49, 52 = 50–54, 57 = 55 or over.
+
+4. yearsmarried - numeric variable coding number of years married: 0.125 = 3 months or less, 0.417 = 4–6 months, 0.75 = 6 months–1 year, 1.5 = 1–2 years, 4 = 3–5 years, 7 = 6–8 years, 10 = 9–11 years, 15 = 12 or more years.
+
+5. children - factor. Are there children in the marriage?
+
+6.  religiousness - numeric variable coding religiousness: 1 = anti, 2 = not at all, 3 = slightly, 4 = somewhat, 5 = very.
+
+7.  education -  numeric variable coding level of education: 9 = grade school, 12 = high school graduate, 14 = some college, 16 = college graduate, 17 = some graduate work, 18 = master's degree, 20 = Ph.D., M.D., or other advanced degree.
+
+8. occupation -  numeric variable coding occupation according to Hollingshead classification (reverse numbering).
+
+9. rating - numeric variable coding self rating of marriage: 1 = very unhappy, 2 = somewhat unhappy, 3 = average, 4 = happier than average, 5 = very happy.
+
+
+So this data contains lots of informaiton about women and men wo have affairs or not, and it could provide enough information of our question of interest that  whether women become less chance in having affairs when they become mothers compare with men when they become fathers based on this data set.
+
+
+# Model 
+
+To investigate the question of interest, the logistic model is applied in this study, the response target is affairs in the data which indicates having affairs or not based on other covariates for both males and females. 
+The model used to analysis the data is a logistic model as below:
+
+$$logit(P(Y_i = 1)) = \beta_0 +  \beta_1 age + \beta_2  married + \beta_3 gender + ...$$
+$$+ ... + \beta_p gender \times children)$$
+So the variables included in the model  are age, gender, married, religiousness, having children or not. The interested independent variables are having children or not and gender, the other variables are also important and kept in the model as important covariates to adjust the effects of the interested two independent variables. 
+
+This study chooses the logistic model because it is most appropriate for this study. The response whether having affairs or not is a binary outcome with two outcomes only 1 and 0, so it has a binomial distribution. However, probit model, and similar models using different link functions are not used because logistic model has the best model interpretion compared with others. 
+ 
+
+# Results
+
+
+
+```{r}
+library(ggplot2)
+library(AER)
+library(dplyr)
+library(knitr)
+library(scales)
+data('Affairs')
+
+Affairs <- Affairs %>% mutate(ever = affairs > 0,
+                              age = (age - mean(age)) / sd(age),
+religiousness = factor(religiousness,levels = c(2,1,3,4,5),
+                           labels = c("no","anti","low","med","high")))
+
+```
+
+
+
+```{r, fig.cap="Side by side boxplots for ages grouped by whether ever have affairs for both males and females"}
+ggplot(Affairs, aes(ever, age)) + geom_boxplot(fill = "darkorange") + theme_bw()
+```
+
+
+Figure 1 shows the Side by side boxplots for ages grouped by whether ever have affairs for both males and females, it shows that the median ages and the distributions of ages are very similar indicating having affairs seems to be not related to some specified age groups.
+
+```{r, fig.cap="Side by side boxplots for education levels grouped by whether ever have affairs for both males and females"}
+ggplot(Affairs, aes(ever, education )) + geom_boxplot(fill = "darkorange") + theme_bw()
+```
+
+
+Figure 2 shows the Side by side boxplots for education levels grouped by whether ever have affairs for both males and females, it shows that the median education levels  and the distributions of ages are different indicating the education level in ever have affairs group seems to higher than not ever have affairs group.
+
+
+```{r, fig.cap=" dodged bar plot that shows proportion of males in have or not have affairs groups"}
+d1 <- Affairs %>% group_by( ever) %>% summarise(prop = mean(gender == "male"))
+
+ggplot(d1, aes(ever, prop )) + geom_col(fill = "lightblue") + theme_bw() + ylab("proportion of males")
+```
+
+
+Figure 3 shows the dodged bar plot that shows proportion of males in have or not have affairs groups, it can be found the proportion of males in ever have affairs group is higher than that in the not ever have affairs group.
+
+```{r, fig.cap=" dodged bar plot that shows proportion of having children in have or not have affairs groups"}
+d1 <- Affairs %>% group_by( ever) %>% summarise(prop = mean(children == "yes"))
+
+ggplot(d1, aes(ever, prop )) + geom_col(fill = "lightblue") + theme_bw() + ylab("proportion of having children")
+```
+
+
+Figure 4 shows the dodged bar plot that shows proportion of having children in have or not have affairs groups, it can be found the proportion of having children in the ever have affairs group is higher than that in the not ever have affairs group.
+
+
+```{r, fig.cap="Side by side boxplots for years married grouped by whether ever have affairs and types of religiousness for both males and females"}
+ggplot(Affairs, aes(ever,  yearsmarried, fill = religiousness  )) + geom_boxplot() + theme_bw()
+```
+
+Figure 5 appears to show that the average levels of years married is higher in ever have affairs group compared with not ever have affairs, also, it can be found this is not restricted by religiousness, med or high religiousness also show have affairs cases commonly for long years of married.  
+
+
+```{r, fig.cap="Proportion of ever have affairs grouped by gender and whether having children"}
+fit = glm(ever ~ gender:children + age + yearsmarried + religiousness,data = Affairs, family = "binomial")
+CIOR = exp(confint(fit))[-11,]
+OR=exp(coef(fit))[-11]
+d1 = cbind(summary(fit)$coef,OR,CIOR)
+kable(d1,digit = 2, caption="Logistic model's estimation on the chance that males and females have affairs")
+
+d1 = aggregate(ever ~ gender + children,data=Affairs,mean)
+d1 %>% ggplot( aes(gender,ever,fill = children)) + geom_bar(stat ="identity",position  = "dodge") +
+  ylab("") + theme_bw() +  scale_y_continuous(labels = percent) + ylab("Proportion of ever have affairs")
+```
+
+
+At last, table 1 shows the Logistic model's estimation on the chance that males and females have affairs. And figure 6 shows Proportion of ever have affairs grouped by gender and whether having children, it seems that the proportion of ever have affairs is higehr for both males and feamels having children.
+
+
+
+# Discussion
+
+
+The estimates of the logistic model in the table 1. Table 1 shows that the age's effect, years of marriage effect, and religious belief effect are all significant at the 5% level as the p values of them are all less than 0.05. And we can see that the odds of ever having  affairs increase by about 29 percent for each additional years old in age fixed other covariates. For each additional year of marriage, the chances of ever having affairs would be increase by 11 percent. 
+
+On the religious side, those who were anti-religious and those who were low-religious were 2.03 and 1.32 times more likely to have affairs than those who were non-religious, respectively. The odds of cheating were 48 percent for non-religious people and 51 percent for high religious people. Childless women were 40% as likely to have affairs as men with children, and childless men were 78% as likely to have affairs as men with children. Finally, women with children were 77 percent as likely as men with children about ever have affairs.
+
+Thus, it was found in this  study that after women become mother, the increase of chance of have affairs is higher than that of men become father. Although males have higher proportion of have affairs compared with females in both cases - with or without children, the gap betweeen the two proportions is much higher for females, so this finding is very important that it is a strong evidence against the assumption that women become overly protective after they become new mothers so they avoid  having extramarital sex while men are likely to feel constrained after they become new fathers leading to having more extramarital sex. 
+
+So the findings in this study shows before women become a mother (without having children), they are overly protective, they have much lower proportion which is about a half (10% vs. 20%) proportion of males. But after women become a mother and men become a father, although both have higher chance of have affairs and men still have a higher chance of have affairs, the increase of chance of having affairs is much higher for women, it indicates women is more likely to feel constrained after they become new mothers leading to having more extramarital sex indeed.
+
+Besides the findings of the study, there are some weaknesses, first, the survey data is an old one which might not be appropriate for the results to be generalized to now days. Second, the survey data collected might not be correct as there might be biasness males or females hide the facts they ever have affairs, they did but they fail to report due to unknown reasons. And this would affect the results of the study seriously as the response would be changed from no to yes for these individuals thus the data would change a lot leading to much different results based on about 600 samples which is not large enough to be robust. Finally, in future work, we can investigate these issues, for examples, we can apply techniques such as matching using covariates to check the responses  which means if two samples have very similar basic features but different outcomes then we must take care of the cases. Also, we can try other advanced models like including random effects. At last, we can find a new data set in recent years to do the research to obtain more useful results and more reliable conclusions.
+
+
+
+# References
+
+1.  Christian Kleiber and Achim Zeileis (2008). Applied Econometrics with R. New York: Springer-Verlag. ISBN
+  978-0-387-77316-2. URL https://CRAN.R-project.org/package=AER
+
+2. Greene, W.H. (2003). Econometric Analysis, 5th edition. Upper Saddle River, NJ: Prentice Hall.
+Fair, R.C. (1978). A Theory of Extramarital Affairs. Journal of Political Economy, 86, 45–61.
+
+3. Hadley Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+4. Hadley Wickham, Romain Franois, Lionel Henry and Kirill Müller (2019). dplyr: A Grammar of
+  Data Manipulation. R package version 0.8.3. https://CRAN.R-project.org/package=dplyr
+  
+5. R Core Team (2019). R: A language and environment for statistical computing. R Foundation for Statistical
+  Computing, Vienna, Austria. URL https://www.R-project.org/.
+  
+6. Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden, Friedrich
+    Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research. Chapman and Hall/CRC. ISBN   978-1466561595
+
+
+
+
+
+
+
+
+
