@@ -13,7 +13,7 @@ linestretch: 1.5
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=TRUE, warning=F,message=F)
+knitr::opts_chunk$set(echo = F,warning=F,message=F)
 ```
 
 # Introduction
@@ -171,15 +171,18 @@ Besides the findings of the study, there are some weaknesses, first, the survey 
 2. Greene, W.H. (2003). Econometric Analysis, 5th edition. Upper Saddle River, NJ: Prentice Hall.
 Fair, R.C. (1978). A Theory of Extramarital Affairs. Journal of Political Economy, 86, 45–61.
 
-3. Hadley Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+3. Hadley Wickham and Dana Seidel (2019). scales: Scale Functions for Visualization. R package version 1.1.0.
+  https://CRAN.R-project.org/package=scales
 
-4. Hadley Wickham, Romain Franois, Lionel Henry and Kirill Müller (2019). dplyr: A Grammar of
+4. Hadley Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+5. Hadley Wickham, Romain Franois, Lionel Henry and Kirill Müller (2019). dplyr: A Grammar of
   Data Manipulation. R package version 0.8.3. https://CRAN.R-project.org/package=dplyr
-  
-5. R Core Team (2019). R: A language and environment for statistical computing. R Foundation for Statistical
+
+6. R Core Team (2019). R: A language and environment for statistical computing. R Foundation for Statistical
   Computing, Vienna, Austria. URL https://www.R-project.org/.
   
-6. Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden, Friedrich
+7. Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden, Friedrich
     Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research. Chapman and Hall/CRC. ISBN   978-1466561595
 
 
